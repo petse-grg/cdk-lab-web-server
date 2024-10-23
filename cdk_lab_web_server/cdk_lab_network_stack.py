@@ -23,12 +23,16 @@ class CdkLabNetworkStack(Stack):
 
         # Create a VPC. CDK by default creates and attaches internet gateway for VPC
         self.cdk_vpc = ec2.Vpc(self, "cdk_vpc",
-                            # max_az=2,
+                            max_azs=2,
                             ip_addresses=ec2.IpAddresses.cidr("10.0.0.0/16"),
                             subnet_configuration=[
                                 ec2.SubnetConfiguration(
                                     name="Public",
                                     subnet_type=ec2.SubnetType.PUBLIC
-                                    )
+                                    ),
+                                ec2.SubnetConfiguration(
+                                name="Private",
+                                subnet_type=ec2.SubnetType.PRIVATE_ISOLATED
+                                )
                             ]
         )
